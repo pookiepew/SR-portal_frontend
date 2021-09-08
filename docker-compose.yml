@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.prod
+    image: mainframe:9000/sr-portal_frontend:v1.2.30
+    container_name: 'sr-portal_frontend'
+    ports:
+      - '3000:3000'
+    networks:
+      - dev
+    volumes:
+      - ./src:/app/src
+      - /app/node_modules
+    stdin_open: true
+    tty: true
+
+networks:
+  dev:
+    external: true
