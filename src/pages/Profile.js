@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { AnimatePresence, motion } from 'framer-motion';
 
+import { logoutUser } from '../store/actions-creators/auth-actions';
+
 import Moment from 'react-moment';
 
 import useInput from '../hooks/use-input';
@@ -14,6 +16,7 @@ import Loader from '../components/ui/Loader';
 
 import EyeIcon from '../components/ui/icons/Eye-icon';
 import EyeOffIcon from '../components/ui/icons/Eye-off-icon';
+import LogoutIcon from '../components/ui/icons/Logout-icon';
 
 import {
   checkPassword,
@@ -132,7 +135,7 @@ const Profile = () => {
 
   if (!user.isAuthenticated) return <Redirect to='/login' />;
   return (
-    <section className='w-full flex pl-4 sm:pl-6 md:pl-8'>
+    <section className='w-full flex px-4 sm:pl-72'>
       <Card className='w-full md:w-96 min-w-max mt-5'>
         <div>
           <h5 className='font-heading font-semibold mb-5 capitalize text-lg'>
@@ -181,10 +184,16 @@ const Profile = () => {
             ))}
 
             <button
-              className='text-white rounded-sm bg-red-600 w-full py-1 mt-5 hover:bg-red-700'
+              className='hover:text-white rounded-sm bg-gray-200 hover:bg-red-600 w-full py-1 mt-5'
               onClick={() => setChangeUserPassword(true)}
             >
               Change Password
+            </button>
+            <button
+              className='rounded hover:bg-red-600 bg-gray-200 hover:text-white w-full flex items-center justify-center py-1 mt-5'
+              onClick={() => dispatch(logoutUser())}
+            >
+              <LogoutIcon className='h-4 w-4 mr-2' /> Sign Out
             </button>
           </ul>
         </ul>

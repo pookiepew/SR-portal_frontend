@@ -1,17 +1,29 @@
-import { motion, AnimateSharedLayout } from "framer-motion";
-import Organisation from "./navlinks/Organisation";
-import Handbooks from "./navlinks/Handbooks";
-import ClientRegister from "./navlinks/ClientRegister";
-import Suppliers from "./navlinks/Suppliers";
-import Equipment from "./navlinks/Equipment";
-import PDF from "./navlinks/PDF";
-import Links from "./navlinks/Links";
+import { useSelector } from 'react-redux';
+import { motion, AnimateSharedLayout } from 'framer-motion';
+
+import Admin from './navlinks/Admin';
+import Organisation from './navlinks/Organisation';
+import Handbooks from './navlinks/Handbooks';
+import ClientRegister from './navlinks/ClientRegister';
+import Suppliers from './navlinks/Suppliers';
+import Equipment from './navlinks/Equipment';
+import PDF from './navlinks/PDF';
+import Links from './navlinks/Links';
 
 const Nav = (props) => {
+  const user = useSelector((state) => state.auth.user);
+
   return (
-    <nav className="text-white">
+    <nav className='text-white pb-24'>
       <AnimateSharedLayout>
-        <motion.ul layout className="pr-2 pt-14">
+        <motion.ul layout className='pt-14'>
+          {user.isAdmin && (
+            <Admin
+              layout
+              sidebarIsOpen={props.sidebarIsOpen}
+              toggleSidebarHandler={props.toggleSidebarHandler}
+            />
+          )}
           <Organisation
             layout
             sidebarIsOpen={props.sidebarIsOpen}

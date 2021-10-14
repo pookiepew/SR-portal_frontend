@@ -7,8 +7,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 if (process.env.NODE_ENV === 'development') {
-  // baseURL = 'http://192.168.86.23:5000';
-  baseURL = process.env.REACT_APP_BACKEND_URL;
+  baseURL = 'http://192.168.86.23:5000';
 }
 
 const API = axios.create({

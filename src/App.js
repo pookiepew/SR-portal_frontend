@@ -21,13 +21,20 @@ const App = () => {
   Moment.globalFormat = 'DD.MM.YY';
   const dispatch = useDispatch();
   useEffect(() => {
-    socket = io('wss://sr-portal-api.glensorbo.com');
-    socket.on('connect', () => {
-      console.log('Socket IO connected');
-    });
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('user');
-    if (token && user) dispatch(getUser());
+    if (token && user) {
+      dispatch(getUser());
+      if (process.env.NODE_ENV === 'production') {
+        socket = io('wss://sr-portal-api.glensorbo.com');
+      }
+      if (process.env.NODE_ENV === 'development') {
+        socket = io('http://192.168.86.23:5000');
+      }
+      socket.on('connect', () => {
+        console.log('Socket IO connected');
+      });
+    }
   }, [dispatch]);
   return (
     <Layout>

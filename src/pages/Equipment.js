@@ -7,7 +7,12 @@ import { fade } from '../variants';
 
 import Moment from 'react-moment';
 
-import { getTrailers } from '../store/actions-creators/equipment-actions';
+import {
+  getTrailers,
+  getTrailerType,
+} from '../store/actions-creators/equipment-actions';
+
+import { socket } from '../App';
 
 import ArrowRight from '../components/ui/icons/Arrow-right';
 import Card from '../components/ui/Card';
@@ -15,10 +20,11 @@ import Card from '../components/ui/Card';
 const Equipment = () => {
   const dispatch = useDispatch();
   const [component, setComponent] = useState('Position-list');
-  const trailers = useSelector((state) => state.equipment.trailers);
+  const { trailers, trailerType } = useSelector((state) => state.equipment);
   const { user } = useSelector((state) => state.auth);
 
   const [selectedTrailer, setSelectedTrailer] = useState(null);
+  const [addNewTrailer, setAddNewTrailer] = useState(false);
 
   useEffect(() => {
     document.title = 'SR Portal - Equipment';
@@ -30,13 +36,39 @@ const Equipment = () => {
   }, []);
 
   useEffect(() => {
-    setSelectedTrailer(trailers.data[0]);
-  }, [trailers.data]);
+    setSelectedTrailer(trailers[0]);
+  }, [trailers]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('trailer', (data) => {
+        console.log(data);
+      });
+    }
+    return () => {
+      if (socket) {
+        socket.off('trailer');
+      }
+    };
+  }, []);
+
+  const addNewTrailerHandler = () => {
+    dispatch(getTrailerType());
+    setSelectedTrailer(null);
+    setAddNewTrailer(true);
+  };
+
+  const chooseTrailerClickHandler = (trailer) => {
+    if (setAddNewTrailer) {
+      setAddNewTrailer(false);
+    }
+    setSelectedTrailer(trailer);
+  };
 
   if (!user.isAuthenticated) return <Redirect to='/login' />;
 
   return (
-    <section className='w-full px-4 sm:px-6 md:px-8'>
+    <section className='w-full px-4 sm:pl-72'>
       <ul className='flex items-center h-10 mt-3 text-sm sm:text-base'>
         <li
           className={
@@ -78,16 +110,24 @@ const Equipment = () => {
             animate={component === 'Position-list' ? 'visible' : 'hidden'}
             key={component}
           >
+            <div
+              className='absolute bottom-16 right-12 w-20 h-20 bg-primary flex items-center justify-center rounded-full hover:shadow-xl cursor-pointer'
+              onClick={addNewTrailerHandler}
+            >
+              <p className='text-white text-6xl h-16 w-16 text-center transform-gpu duration-200 hover:rotate-180'>
+                +
+              </p>
+            </div>
             <Card className='mt-5'>
               <p className='text-gray-600 text-sm mb-3'>
-                Trailers: {trailers.data.length}
+                Trailers: {trailers.length}
               </p>
               <ul className='mt-5 flex flex-col'>
-                {trailers.data &&
-                  trailers.data.map((trailer) => (
+                {trailers &&
+                  trailers.map((trailer) => (
                     <li
                       className={
-                        'bg-gray-50 hover:bg-gray-200 shadow mb-3 flex h-16 rounded-sm overflow-hidden w-80 cursor-pointer border-t border-b ' +
+                        'bg-gray-50 hover:bg-gray-200 shadow mb-3 flex h-20 rounded-sm overflow-hidden w-96 cursor-pointer border-t border-b ' +
                         (selectedTrailer &&
                           selectedTrailer._id === trailer._id &&
                           'bg-gray-200')
@@ -97,28 +137,28 @@ const Equipment = () => {
                       <img src={trailer.imgURL} alt='Trailer' />
                       <div className='h-full w-full flex'>
                         <div
-                          className='h-full w-full flex flex-col px-4'
-                          onClick={() => setSelectedTrailer(trailer)}
+                          className='h-full w-full flex flex-col px-4 py-1'
+                          onClick={() => chooseTrailerClickHandler(trailer)}
                         >
                           <div className='flex items-center w-full'>
                             <p className='font-bold w-1/2'>
                               {trailer.regNumber}
                             </p>
-                            <p className='text-sm pl-5'>{trailer.type.name}</p>
+                            <p className='text-sm pl-7'>{trailer.type.name}</p>
                           </div>
 
                           <div className='flex items-center w-full'>
                             <p className='text-sm flex items-center w-1/2'>
-                              {trailer.currentLocation?.place}
+                              {trailer.currentLocation?.area}
                               {trailer.nextLocation && (
                                 <span className='ml-auto'>
                                   <ArrowRight className='m-auto h-5 w-5' />
                                 </span>
                               )}
                             </p>
-                            {trailer.nextLocation?.place && (
-                              <p className='text-sm pl-5'>
-                                {trailer.nextLocation.place}
+                            {trailer.nextLocation?.area && (
+                              <p className='text-sm pl-7'>
+                                {trailer.nextLocation.area}
                               </p>
                             )}
                             {!trailer.nextLocation && (
@@ -127,11 +167,11 @@ const Equipment = () => {
                           </div>
 
                           <div className='flex items-center w-full'>
-                            <p className='text-xs w-1/2'>12.09.21</p>
-                            <p className='text-xs pl-5'>13.09.21</p>
+                            <p className='text-xs w-1/2 mt-1'>12.09.21</p>
+                            <p className='text-xs pl-7 mt-1'>13.09.21</p>
                           </div>
                         </div>
-                        <button className='text-xs w-16 bg-primary text-white hover:bg-primaryHover'>
+                        <button className='text-xs px-2 block bg-primary text-white hover:bg-primaryHover'>
                           SHIP IT
                         </button>
                       </div>
@@ -196,6 +236,30 @@ const Equipment = () => {
                       </ul>
                     </div>
                   </div>
+                </Card>
+              </AnimatePresence>
+            )}
+            {addNewTrailer && (
+              <AnimatePresence exitBeforeEnter>
+                <Card className='mt-5 min-w-max md:ml-10' key='addnewtrailer'>
+                  <form>
+                    <div className='flex mb-5 items-center'>
+                      <input
+                        className='font-heading font-semibold capitalize text-lg w-20 mr-10 outline-none border-b-2 border-primary'
+                        placeholder='LUB 2021'
+                        required
+                      />
+
+                      {trailerType.length > 0 && (
+                        <select className='ml-auto text-xs text-gray-600 outline-none cursor-pointer'>
+                          {trailerType.map((type) => (
+                            <option value={type.name}>{type.name}</option>
+                          ))}
+                          <option value='add-new'>Add New</option>
+                        </select>
+                      )}
+                    </div>
+                  </form>
                 </Card>
               </AnimatePresence>
             )}

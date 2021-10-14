@@ -1,51 +1,49 @@
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
-import { motion } from 'framer-motion';
 
 import { uiActions } from '../store/slices/ui-slice';
 
-import Header from './navigation/Header';
+import useWindowDimensions from '../hooks/useWindowDimensions';
+
+// import Header from './navigation/Header';
 import Footer from '../components/ui/Footer';
+import ProfileLink from './navigation/ProfileLink';
+import Sidebar from './navigation/Sidebar';
 
 const Layout = (props) => {
   const { user } = useSelector((state) => state.auth);
-  const { sidebarIsOpen, userSubmenuIsOpen } = useSelector((state) => state.ui);
+  // const { userSubmenuIsOpen } = useSelector((state) => state.ui);
+  const sidebarIsOpen = useSelector((state) => state.ui.sidebarIsOpen);
+
+  const { width } = useWindowDimensions();
 
   const dispatch = useDispatch();
 
-  const mainWindowClickHandler = () => {
-    if (sidebarIsOpen) {
-      dispatch(uiActions.toggleSidebar());
-      return;
-    }
-    if (userSubmenuIsOpen) {
-      dispatch(uiActions.toggleUserSubmenu());
-      return;
-    }
-  };
+  // const mainWindowClickHandler = () => {
+  //   if (userSubmenuIsOpen) {
+  //     dispatch(uiActions.toggleUserSubmenu());
+  //     return;
+  //   }
+  // };
 
-  const sidebarSlideIn = {
-    initial: {
-      paddingLeft: 0,
-    },
-    right: {
-      paddingLeft: '250px',
-    },
-  };
+  useEffect(() => {
+    if (width > 640) {
+      dispatch(uiActions.toggleSidebar(true));
+    }
+  }, [width, dispatch]);
 
   return (
     <>
-      {user.isAuthenticated && <Header />}
-      <motion.main
-        variants={sidebarSlideIn}
-        initial='initial'
-        animate={sidebarIsOpen ? 'right' : 'initial'}
-        transition={{ duration: 0.2 }}
-        onClick={mainWindowClickHandler}
+      {/* {user.isAuthenticated && <Header />} */}
+      <main
+        className='overflow-x-hidden'
+        // onClick={mainWindowClickHandler}
       >
+        {user.isAuthenticated && <Sidebar />}
         {props.children}
         {user.isAuthenticated && <Footer />}
-      </motion.main>
+        {user.isAuthenticated && sidebarIsOpen && <ProfileLink user={user} />}
+      </main>
     </>
   );
 };

@@ -55,12 +55,12 @@ div {
 
 .active {
   color: #fff;
-  font-weight: 500;
-  --tw-bg-opacity: 1;
-  background-color: rgba(55, 65, 81, var(--tw-bg-opacity));
+  font-weight: 600;
+  /* --tw-bg-opacity: 1;
+  background-color: rgba(55, 65, 81, var(--tw-bg-opacity)); */
 }
 
-.list:nth-child(odd) {
+.list li:nth-child(odd) {
   background-color: #f4f7f9;
   border-top: 1px solid #dee6ed;
   border-bottom: 1px solid #dee6ed;

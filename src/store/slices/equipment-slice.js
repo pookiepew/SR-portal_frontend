@@ -1,10 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  trailers: {
-    count: 0,
-    data: [],
-  },
+  trailers: [],
+  trailerType: [],
 };
 
 const equipmentSlice = createSlice({
@@ -12,8 +10,10 @@ const equipmentSlice = createSlice({
   initialState,
   reducers: {
     loadTrailers(state, action) {
-      state.trailers.count = action.payload.count;
-      state.trailers.data = action.payload.trailers;
+      state.trailers = action.payload.trailers;
+    },
+    loadTrailerType(state, action) {
+      state.trailerType = action.payload.trailerType;
     },
   },
 });

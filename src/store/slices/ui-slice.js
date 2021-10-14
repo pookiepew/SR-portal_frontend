@@ -12,7 +12,11 @@ const uiSlice = createSlice({
     },
   },
   reducers: {
-    toggleSidebar(state) {
+    toggleSidebar(state, action) {
+      if (action.payload) {
+        state.sidebarIsOpen = action.payload;
+        return;
+      }
       state.sidebarIsOpen = !state.sidebarIsOpen;
     },
     toggleUserSubmenu(state) {

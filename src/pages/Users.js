@@ -3,6 +3,7 @@ import { Redirect } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { AnimatePresence, motion } from 'framer-motion';
+
 import { fade } from '../variants';
 
 import {
@@ -18,9 +19,13 @@ import InvitedUsers from '../components/Users/InvitedUsers';
 import DeletedUsers from '../components/Users/DeletedUsers';
 import DeleteUserCard from '../components/Users/DeleteUserCard';
 import InviteUserCard from '../components/Users/InviteUserCard';
+import Header from '../components/navigation/Header';
+
+import UserAddIcon from '../components/ui/icons/User-add-icon';
 
 const Users = () => {
   const user = useSelector((state) => state.auth.user);
+
   const { activeUsers, invitedUsers, deletedUsers } = useSelector(
     (state) => state.users
   );
@@ -74,144 +79,174 @@ const Users = () => {
     setSelectedUser(user);
   };
 
+  let baseURL;
+
+  if (process.env.NODE_ENV === 'production') {
+    baseURL = process.env.REACT_APP_BACKEND_URL;
+  }
+
+  if (process.env.NODE_ENV === 'development') {
+    baseURL = 'http://192.168.86.23:5000';
+  }
+
   if (!user.isAuthenticated) return <Redirect to='/login' />;
+
   return (
-    <section className='w-full pl-4 sm:pl-6 md:pl-8'>
-      <ul className='flex items-center h-10 mt-3 text-sm sm:text-base'>
-        <li
-          className={
-            component === 'Active-users'
-              ? 'h-6 font-bold mr-6 border-b-2 select-none border-primary hover:border-primary cursor-pointer'
-              : 'h-6 font-bold mr-6 border-b-2 select-none border-transparent hover:border-primary cursor-pointer'
-          }
-          onClick={() => setComponent('Active-users')}
-        >
-          Active Users
-        </li>
-        <li
-          className={
-            component === 'Invited-users'
-              ? 'h-6 font-bold mr-6 border-b-2 select-none border-primary hover:border-primary cursor-pointer'
-              : 'h-6 font-bold mr-6 border-b-2 select-none border-transparent hover:border-primary cursor-pointer'
-          }
-          onClick={() => setComponent('Invited-users')}
-        >
-          Invited Users
-        </li>
-        <li
-          className={
-            component === 'Deleted-users'
-              ? 'h-6 font-bold border-b-2 select-none border-primary hover:border-primary cursor-pointer'
-              : 'h-6 font-bold border-b-2 select-none border-transparent hover:border-primary cursor-pointer'
-          }
-          onClick={() => setComponent('Deleted-users')}
-        >
-          Deleted Users
-        </li>
-      </ul>
-      <AnimatePresence exitBeforeEnter>
-        {component === 'Active-users' && (
-          <motion.section
-            className='md:flex'
-            variants={fade}
-            initial='hidden'
-            animate={component === 'Active-users' ? 'visible' : 'hidden'}
-            key={component}
+    <>
+      <Header>
+        <nav className='flex items-center'>
+          <ul className='hidden sm:flex items-center h-10 mt-3 text-sm sm:text-base'>
+            <li
+              className={
+                component === 'Active-users'
+                  ? 'h-6 font-bold mr-6 border-b-2 select-none border-primary hover:border-primary cursor-pointer'
+                  : 'h-6 font-bold mr-6 border-b-2 select-none border-transparent hover:border-primary cursor-pointer'
+              }
+              onClick={() => setComponent('Active-users')}
+            >
+              Active Users
+            </li>
+            <li
+              className={
+                component === 'Invited-users'
+                  ? 'h-6 font-bold mr-6 border-b-2 select-none border-primary hover:border-primary cursor-pointer'
+                  : 'h-6 font-bold mr-6 border-b-2 select-none border-transparent hover:border-primary cursor-pointer'
+              }
+              onClick={() => setComponent('Invited-users')}
+            >
+              Invited Users
+            </li>
+            <li
+              className={
+                component === 'Deleted-users'
+                  ? 'h-6 font-bold border-b-2 select-none border-primary hover:border-primary cursor-pointer'
+                  : 'h-6 font-bold border-b-2 select-none border-transparent hover:border-primary cursor-pointer'
+              }
+              onClick={() => setComponent('Deleted-users')}
+            >
+              Deleted Users
+            </li>
+          </ul>
+          <button
+            className='text-xs md:text-sm text-white bg-primary ml-auto mr-5 flex px-1 md:px-3 py-1 rounded hover:bg-primaryHover h-1/2'
+            onClick={toggleInviteCardHandler}
           >
-            <ActiveUsers
-              users={activeUsers}
-              toggleInviteCardHandler={toggleInviteCardHandler}
-              setSelectedUser={setSelectedUser}
-            />
-            <AnimatePresence exitBeforeEnter>
-              {selectedUser && (
-                <UserCard
-                  user={user}
-                  selectedUser={selectedUser}
-                  toggleDeleteCardHandler={toggleDeleteCardHandler}
-                  selectUserHandler={selectUserHandler}
-                  component={component}
-                  key='UserCard'
-                />
-              )}
-              {showInviteUserCard && (
-                <InviteUserCard
-                  toggleInviteCardHandler={toggleInviteCardHandler}
-                  setShowInviteUserCard={setShowInviteUserCard}
-                  key='InviteCard'
-                />
-              )}
-              {showDeleteUserCard && (
-                <DeleteUserCard
-                  user={userToDelete}
-                  toggleDeleteCardHandler={toggleDeleteCardHandler}
-                  deleteUserHandler={deleteUserHandler}
-                  key='DeleteModal'
-                />
-              )}
-            </AnimatePresence>
-          </motion.section>
-        )}
-        {component === 'Invited-users' && (
-          <motion.section
-            className='md:flex'
-            variants={fade}
-            initial='hidden'
-            animate={component === 'Invited-users' ? 'visible' : 'hidden'}
-            key={component}
-          >
-            <InvitedUsers
-              users={invitedUsers}
-              toggleInviteCardHandler={toggleInviteCardHandler}
-              setSelectedUser={setSelectedUser}
-            />
-            <AnimatePresence exitBeforeEnter>
-              {selectedUser && (
-                <UserCard
-                  user={user}
-                  selectedUser={selectedUser}
-                  toggleDeleteCardHandler={toggleDeleteCardHandler}
-                  selectUserHandler={selectUserHandler}
-                  component={component}
-                  key='UserCard'
-                />
-              )}
-              {showInviteUserCard && (
-                <InviteUserCard
-                  toggleInviteCardHandler={toggleInviteCardHandler}
-                  setShowInviteUserCard={setShowInviteUserCard}
-                  key='InviteCard'
-                />
-              )}
-            </AnimatePresence>
-          </motion.section>
-        )}
-        {component === 'Deleted-users' && (
-          <motion.section
-            className='md:flex'
-            variants={fade}
-            initial='hidden'
-            animate={component === 'Deleted-users' ? 'visible' : 'hidden'}
-            key={component}
-          >
-            <DeletedUsers
-              users={deletedUsers}
-              setSelectedUser={setSelectedUser}
-            />
-            {selectedUser && (
-              <UserCard
-                user={user}
-                selectedUser={selectedUser}
-                toggleDeleteCardHandler={toggleDeleteCardHandler}
-                selectUserHandler={selectUserHandler}
-                component={component}
-                key={'UserCard'}
+            <UserAddIcon className='h-4 md:h-5 w-3 md:w-4 mr-1 md:pb-1' />
+            Invite User
+          </button>
+        </nav>
+      </Header>
+      <section className='w-full px-4 sm:pl-72'>
+        <AnimatePresence exitBeforeEnter>
+          {component === 'Active-users' && (
+            <motion.section
+              className='md:flex'
+              variants={fade}
+              initial='hidden'
+              animate={component === 'Active-users' ? 'visible' : 'hidden'}
+              key={component}
+            >
+              <ActiveUsers
+                users={activeUsers}
+                toggleInviteCardHandler={toggleInviteCardHandler}
+                setSelectedUser={setSelectedUser}
+                baseURL={baseURL}
               />
-            )}
-          </motion.section>
-        )}
-      </AnimatePresence>
-    </section>
+              <AnimatePresence exitBeforeEnter>
+                {selectedUser && (
+                  <UserCard
+                    user={user}
+                    selectedUser={selectedUser}
+                    toggleDeleteCardHandler={toggleDeleteCardHandler}
+                    selectUserHandler={selectUserHandler}
+                    component={component}
+                    baseURL={baseURL}
+                    key='UserCard'
+                  />
+                )}
+                {showInviteUserCard && (
+                  <InviteUserCard
+                    toggleInviteCardHandler={toggleInviteCardHandler}
+                    setShowInviteUserCard={setShowInviteUserCard}
+                    key='InviteCard'
+                  />
+                )}
+                {showDeleteUserCard && (
+                  <DeleteUserCard
+                    user={userToDelete}
+                    toggleDeleteCardHandler={toggleDeleteCardHandler}
+                    deleteUserHandler={deleteUserHandler}
+                    key='DeleteModal'
+                  />
+                )}
+              </AnimatePresence>
+            </motion.section>
+          )}
+          {component === 'Invited-users' && (
+            <motion.section
+              className='md:flex'
+              variants={fade}
+              initial='hidden'
+              animate={component === 'Invited-users' ? 'visible' : 'hidden'}
+              key={component}
+            >
+              <InvitedUsers
+                users={invitedUsers}
+                toggleInviteCardHandler={toggleInviteCardHandler}
+                setSelectedUser={setSelectedUser}
+                baseURL={baseURL}
+              />
+              <AnimatePresence exitBeforeEnter>
+                {selectedUser && (
+                  <UserCard
+                    user={user}
+                    selectedUser={selectedUser}
+                    toggleDeleteCardHandler={toggleDeleteCardHandler}
+                    selectUserHandler={selectUserHandler}
+                    component={component}
+                    baseURL={baseURL}
+                    key='UserCard'
+                  />
+                )}
+                {showInviteUserCard && (
+                  <InviteUserCard
+                    toggleInviteCardHandler={toggleInviteCardHandler}
+                    setShowInviteUserCard={setShowInviteUserCard}
+                    key='InviteCard'
+                  />
+                )}
+              </AnimatePresence>
+            </motion.section>
+          )}
+          {component === 'Deleted-users' && (
+            <motion.section
+              className='md:flex'
+              variants={fade}
+              initial='hidden'
+              animate={component === 'Deleted-users' ? 'visible' : 'hidden'}
+              key={component}
+            >
+              <DeletedUsers
+                users={deletedUsers}
+                setSelectedUser={setSelectedUser}
+                baseURL={baseURL}
+              />
+              {selectedUser && (
+                <UserCard
+                  user={user}
+                  selectedUser={selectedUser}
+                  toggleDeleteCardHandler={toggleDeleteCardHandler}
+                  selectUserHandler={selectUserHandler}
+                  component={component}
+                  baseURL={baseURL}
+                  key={'UserCard'}
+                />
+              )}
+            </motion.section>
+          )}
+        </AnimatePresence>
+      </section>
+    </>
   );
 };
 

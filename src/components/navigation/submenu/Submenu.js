@@ -7,7 +7,7 @@ const Submenu = (props) => {
       animate={{ y: 0 }}
       exit={{ y: '-100%' }}
       transition={{ duration: 0.1 }}
-      className='pl-12'
+      className='pl-12 pt-1'
     >
       {props.children}
     </motion.ul>

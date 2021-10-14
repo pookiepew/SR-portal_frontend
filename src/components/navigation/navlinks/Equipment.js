@@ -1,48 +1,47 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+
 import Submenu from '../submenu/Submenu';
 import SubmenuHeading from '../submenu/SubmenuHeading';
 import SubmenuListItem from '../submenu/SubmenuListItem';
-const Equipment = ({ sidebarIsOpen, toggleSidebarHandler }) => {
+
+import TruckIcon from '../../ui/icons/Truck-icon';
+
+const Equipment = (props) => {
   const [showSubmenu, setShowSubmenu] = useState(false);
+
   return (
     <motion.li layout className='mb-3'>
-      <SubmenuHeading
-        setShowSubmenu={setShowSubmenu}
-        sidebarIsOpen={sidebarIsOpen}
-        showSubmenu={showSubmenu}
-        truckIcon
-      >
-        Equipment
+      <SubmenuHeading setShowSubmenu={setShowSubmenu} showSubmenu={showSubmenu}>
+        <TruckIcon className='h-5 w-5 sm:h-6 sm:w-6' />
+        <span className='pl-6 text-sm sm:text-md sm:font-semibold'>
+          Equipment
+        </span>
       </SubmenuHeading>
       <AnimatePresence>
         {showSubmenu && (
           <Submenu>
-            <SubmenuListItem sidebarIsOpen={sidebarIsOpen}>
+            <SubmenuListItem>
               <NavLink
                 to='/equipment'
-                className='block pl-3'
-                onClick={() => {
-                  if (sidebarIsOpen) {
-                    toggleSidebarHandler();
-                  }
-                }}
+                className='block'
+                onClick={props.toggleSidebarHandler}
               >
                 Trailers
               </NavLink>
             </SubmenuListItem>
 
-            <SubmenuListItem sidebarIsOpen={sidebarIsOpen}>
-              <span className='pl-3'>Coming ...</span>
+            <SubmenuListItem>
+              <span>Coming ...</span>
             </SubmenuListItem>
 
-            <SubmenuListItem sidebarIsOpen={sidebarIsOpen}>
-              <span className='pl-3'>Coming ...</span>
+            <SubmenuListItem>
+              <span>Coming ...</span>
             </SubmenuListItem>
 
-            <SubmenuListItem sidebarIsOpen={sidebarIsOpen}>
-              <span className='pl-3'>Coming ...</span>
+            <SubmenuListItem>
+              <span>Coming ...</span>
             </SubmenuListItem>
           </Submenu>
         )}
