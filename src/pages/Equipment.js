@@ -69,7 +69,7 @@ const Equipment = () => {
 
   return (
     <section className='w-full px-4 sm:pl-72'>
-      <ul className='flex items-center h-10 mt-3 text-sm sm:text-base'>
+      <ul className='flex items-center h-10 text-sm sm:text-base'>
         <li
           className={
             component === 'Position-list'
