@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-let baseURL;
+export let baseURL;
 
 if (process.env.NODE_ENV === 'production') {
   baseURL = process.env.REACT_APP_BACKEND_URL;
 }
 
 if (process.env.NODE_ENV === 'development') {
-  baseURL = 'http://192.168.86.23:5000';
+  baseURL = 'http://localhost:5000';
 }
 
 const API = axios.create({

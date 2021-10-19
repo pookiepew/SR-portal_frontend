@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Redirect } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { AnimatePresence, motion } from 'framer-motion';
+
+import { baseURL } from '../api';
 
 import { fade } from '../variants';
 
@@ -79,17 +80,6 @@ const Users = () => {
     setSelectedUser(user);
   };
 
-  let baseURL;
-
-  if (process.env.NODE_ENV === 'production') {
-    baseURL = process.env.REACT_APP_BACKEND_URL;
-  }
-
-  if (process.env.NODE_ENV === 'development') {
-    baseURL = 'http://192.168.86.23:5000';
-  }
-
-  if (!user.isAuthenticated) return <Redirect to='/login' />;
 
   return (
     <>
