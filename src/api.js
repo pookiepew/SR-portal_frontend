@@ -1,17 +1,20 @@
 import axios from 'axios';
 
-export let baseURL;
+export let backendBaseUrl;
+export let backendSocketUrl;
 
 if (process.env.NODE_ENV === 'production') {
-  baseURL = process.env.REACT_APP_PROD_BACKEND_URL;
+  backendBaseUrl = process.env.REACT_APP_PROD_BACKEND_ENDPOINT;
+  backendSocketUrl = process.env.REACT_APP_PROD_SOCKET_ENDPOINT;
 }
 
 if (process.env.NODE_ENV === 'development') {
-  baseURL = process.env.REACT_APP_DEV_BACKEND_URL;
+  backendBaseUrl = process.env.REACT_APP_DEV_BACKEND_ENDPOINT;
+  backendSocketUrl = process.env.REACT_APP_DEV_SOCKET_ENDPOINT;
 }
 
 const API = axios.create({
-  baseURL,
+  baseURL: backendBaseUrl,
   headers: {
     'Content-Type': 'application/json',
   },

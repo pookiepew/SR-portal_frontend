@@ -13,7 +13,7 @@ const UserCard = ({
   toggleDeleteCardHandler,
   selectUserHandler,
   component,
-  baseURL,
+  backendBaseUrl,
 }) => {
   return (
     <Card className='mt-10 md:ml-10'>
@@ -21,7 +21,7 @@ const UserCard = ({
         <div className='flex'>
           {selectedUser.links?.profileImg ? (
             <img
-              src={baseURL + selectedUser.links?.profileImg}
+              src={backendBaseUrl + selectedUser.links?.profileImg}
               className='w-16 h-16 rounded-full object-top object-cover transform transition-all hover:scale-150'
               alt={selectedUser.name}
             />

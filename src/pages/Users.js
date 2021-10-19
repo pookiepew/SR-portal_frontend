@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { baseURL } from '../api';
+import { backendBaseUrl } from '../api';
 
 import { fade } from '../variants';
 
@@ -140,7 +140,7 @@ const Users = () => {
                 users={activeUsers}
                 toggleInviteCardHandler={toggleInviteCardHandler}
                 setSelectedUser={setSelectedUser}
-                baseURL={baseURL}
+                backendBaseUrl={backendBaseUrl}
               />
               <AnimatePresence exitBeforeEnter>
                 {selectedUser && (
@@ -150,7 +150,7 @@ const Users = () => {
                     toggleDeleteCardHandler={toggleDeleteCardHandler}
                     selectUserHandler={selectUserHandler}
                     component={component}
-                    baseURL={baseURL}
+                    backendBaseUrl={backendBaseUrl}
                     key='UserCard'
                   />
                 )}
@@ -184,7 +184,7 @@ const Users = () => {
                 users={invitedUsers}
                 toggleInviteCardHandler={toggleInviteCardHandler}
                 setSelectedUser={setSelectedUser}
-                baseURL={baseURL}
+                backendBaseUrl={backendBaseUrl}
               />
               <AnimatePresence exitBeforeEnter>
                 {selectedUser && (
@@ -194,7 +194,7 @@ const Users = () => {
                     toggleDeleteCardHandler={toggleDeleteCardHandler}
                     selectUserHandler={selectUserHandler}
                     component={component}
-                    baseURL={baseURL}
+                    backendBaseUrl={backendBaseUrl}
                     key='UserCard'
                   />
                 )}
@@ -219,7 +219,7 @@ const Users = () => {
               <DeletedUsers
                 users={deletedUsers}
                 setSelectedUser={setSelectedUser}
-                baseURL={baseURL}
+                backendBaseUrl={backendBaseUrl}
               />
               {selectedUser && (
                 <UserCard
@@ -228,7 +228,7 @@ const Users = () => {
                   toggleDeleteCardHandler={toggleDeleteCardHandler}
                   selectUserHandler={selectUserHandler}
                   component={component}
-                  baseURL={baseURL}
+                  backendBaseUrl={backendBaseUrl}
                   key={'UserCard'}
                 />
               )}

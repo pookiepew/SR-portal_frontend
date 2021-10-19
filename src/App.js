@@ -1,10 +1,12 @@
 import Moment from 'react-moment';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-// import { Switch, Route, Redirect } from 'react-router-dom';
+
 import { io } from 'socket.io-client';
 
 import { getUser } from './store/actions-creators/auth-actions';
+
+import { backendSocketUrl } from './api'
 
 import Layout from './components/Layout';
 import Routes from './Routes'
@@ -18,18 +20,18 @@ const App = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('user');
+
     if (token && user) {
+
       dispatch(getUser());
-      if (process.env.NODE_ENV === 'production') {
-        socket = io('wss://sr-portal-api.glensorbo.com');
-      }
-      if (process.env.NODE_ENV === 'development') {
-        socket = io('ws://localhost:5000');
-      }
+      
+      socket = io(backendSocketUrl);
+      
       socket.on('connect', () => {
         console.log('Socket IO connected');
       });
     }
+
   }, [dispatch]);
   return (
     <Layout>

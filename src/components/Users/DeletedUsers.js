@@ -2,7 +2,7 @@ import Card from '../ui/Card';
 
 import UserCircleIcon from '../ui/icons/UserCircle-icon';
 
-const DeletedUsers = ({ users, setSelectedUser, baseURL }) => {
+const DeletedUsers = ({ users, setSelectedUser, backendBaseUrl }) => {
   return (
     <Card className='mt-6'>
       <ul className='list'>
@@ -22,7 +22,7 @@ const DeletedUsers = ({ users, setSelectedUser, baseURL }) => {
           >
             {user.imageUrl ? (
               <img
-                src={baseURL + user.imageUrl}
+                src={backendBaseUrl + user.imageUrl}
                 className='h-10 w-10 rounded-full object-top object-cover transform transition-all hover:scale-150'
                 alt={user.name}
               />
