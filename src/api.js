@@ -3,11 +3,11 @@ import axios from 'axios';
 export let baseURL;
 
 if (process.env.NODE_ENV === 'production') {
-  baseURL = process.env.REACT_APP_BACKEND_URL;
+  baseURL = process.env.REACT_APP_PROD_BACKEND_URL;
 }
 
 if (process.env.NODE_ENV === 'development') {
-  baseURL = 'http://localhost:5000';
+  baseURL = process.env.REACT_APP_DEV_BACKEND_URL;
 }
 
 const API = axios.create({
