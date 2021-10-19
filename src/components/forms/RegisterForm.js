@@ -146,7 +146,7 @@ const RegisterForm = ({ email }) => {
         )}
       </div>
 
-      <div>
+      <div className='mt-4'>
         <label
           htmlFor='name'
           className='text-label text-sm top-1/4 left-2 xl:text-base'
