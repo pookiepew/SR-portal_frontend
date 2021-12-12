@@ -1,4 +1,4 @@
-import MultiSelect from "../../../ui/MultiSelect";
+import MultiSelect from "../../../ui/Select/MultiSelect";
 
 const AreacodeSelector = ({
   trailers,

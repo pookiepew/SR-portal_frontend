@@ -73,7 +73,6 @@ const PositionFilter = ({ trailers, user, filteredList, setFilteredList }) => {
       localStorage.getItem("closeMenuOnSelect")
     );
     if (closeMenuOnSelectState === false || closeMenuOnSelectState === true) {
-      console.log(closeMenuOnSelectState);
       setCloseMenuOnSelect(closeMenuOnSelectState);
     }
   }, []);

@@ -1,15 +1,29 @@
 import Moment from "react-moment";
 
 import Card from "../../../ui/Card";
+
+import CreatableSelect from "../../../ui/Select/CreatableSelect";
+
 import TruckBGIcon from "../../../ui/icons/Truck2-icon";
 
 const SelectedTrailerCard = ({ selectedTrailer, toggleModalHandler }) => {
+  const onChangeHandler = (newValue) => {
+    if (!newValue) return;
+    console.log("newVal", newValue);
+    if (newValue?.__isNew__) {
+      console.log(newValue.__isNew__);
+    }
+  };
+
+  const onInputChangeHandler = (actionMeta) => {
+    // console.log("actionMeta", actionMeta);
+  };
   return (
     <Card
       className='mt-6 min-w-max h-full md:ml-10'
       key={selectedTrailer.license}
     >
-      <div className='flex h-24'>
+      <div className='flex h-20'>
         {selectedTrailer.imgURL ? (
           <img
             src={selectedTrailer.imgURL}
@@ -21,31 +35,51 @@ const SelectedTrailerCard = ({ selectedTrailer, toggleModalHandler }) => {
           <TruckBGIcon className='w-16 h-16 m-auto' />
         )}
         <div className='px-8 h-full flex flex-col justify-center'>
-          <h1 className='text-3xl text-primary font-bold'>
+          <h1 className='text-2xl text-primary font-bold'>
             {selectedTrailer.license}
           </h1>
-          <p className='text-gray-400'>{selectedTrailer.type?.name}</p>
+          <p className='text-sm text-gray-400'>{selectedTrailer.type?.type}</p>
         </div>
-        <div className='ml-20'>
+        <div className='ml-auto'>
           <button className='text-xs md:text-sm text-white bg-primary px-1 md:px-3 py-1 rounded hover:bg-primaryHover'>
             View details
           </button>
         </div>
       </div>
-      <ul className='list-reverse mt-6'>
-        <li className='h-11 px-4 flex items-center'>
+
+      <ul className='list-reverse mt-6 text-sm'>
+        <li className='h-9 px-4 flex items-center'>
           <span className='w-48 font-semibold'>Current Location</span>
-          <span className='text-sm'>
-            {selectedTrailer.location.current?.areaCode?.code},{" "}
-            {selectedTrailer.location.current?.area}
-          </span>
-          {/* <button className='ml-auto text-sm text-gray-400 hover:text-black'>
+          <div className='flex items-center'>
+            <span className='mr-4'>
+              {selectedTrailer.location.current?.areaCode?.code + " -"}
+            </span>
+            <CreatableSelect
+              isClearable={true}
+              onChange={(newValue) => onChangeHandler(newValue)}
+              onInputChange={(actionMeta) => onInputChangeHandler(actionMeta)}
+              defaultValue={[
+                {
+                  value: selectedTrailer.location.current?.area,
+                  label: selectedTrailer.location.current?.area,
+                },
+              ]}
+              options={[
+                {
+                  value: selectedTrailer.location.current?.area,
+                  label: selectedTrailer.location.current?.area,
+                },
+              ]}
+            />
+            {/* {selectedTrailer.location.current?.area} */}
+          </div>
+          {/* <button className='ml-auto text-gray-400 hover:text-black'>
                           Edit
                         </button> */}
         </li>
-        <li className='h-11 px-4 flex items-center'>
+        <li className='h-9 px-4 flex items-center'>
           <span className='w-48 font-semibold'>Next Location</span>
-          <span className='text-sm'>
+          <span className=''>
             {selectedTrailer.location?.next?.area ? (
               <p>
                 {selectedTrailer.location?.next?.areaCode?.code},{" "}
@@ -55,42 +89,42 @@ const SelectedTrailerCard = ({ selectedTrailer, toggleModalHandler }) => {
               <p className='text-gray-400'>Not planned</p>
             )}
           </span>
-          {/* <button className='ml-auto text-sm text-gray-400 hover:text-black'>
+          {/* <button className='ml-auto text-gray-400 hover:text-black'>
                           Edit
                         </button> */}
         </li>
-        <li className='h-11 px-4 flex items-center'>
+        <li className='h-9 px-4 flex items-center'>
           <span className='w-48 font-semibold'>Team</span>
-          <span className='text-sm capitalize text-blue-400 hover:text-blue-500 cursor-pointer'>
+          <span className='capitalize text-blue-400 hover:text-blue-500 cursor-pointer'>
             {selectedTrailer.team?.name}
           </span>
-          {/* <button className='ml-auto text-sm text-gray-400 hover:text-black'>
+          {/* <button className='ml-auto text-gray-400 hover:text-black'>
                           Edit
                         </button> */}
         </li>
-        <li className='h-11 px-4 flex items-center'>
+        <li className='h-9 px-4 flex items-center'>
           <span className='w-48 font-semibold'>Last Updated</span>
-          <Moment className='text-sm'>{selectedTrailer.updatedAt}</Moment>
+          <Moment className=''>{selectedTrailer.updatedAt}</Moment>
         </li>
-        <li className='h-11 px-4 flex items-center'>
+        <li className='h-9 px-4 flex items-center'>
           <span className='w-48 font-semibold'>Updated By</span>
           {selectedTrailer.updatedBy ? (
-            <span className='text-sm text-blue-400 hover:text-blue-500 cursor-pointer'>
+            <span className='text-blue-400 hover:text-blue-500 cursor-pointer'>
               {selectedTrailer.updatedBy}
             </span>
           ) : (
-            <span className='text-sm text-gray-400'>Never updated</span>
+            <span className='text-gray-400'>Never updated</span>
           )}
         </li>
-        <li className='h-11 px-4 flex items-center'>
+        <li className='h-9 px-4 flex items-center'>
           <span className='w-48 font-semibold'>Creator</span>
-          <span className='text-sm capitalize text-blue-400 hover:text-blue-500 cursor-pointer'>
+          <span className='capitalize text-blue-400 hover:text-blue-500 cursor-pointer'>
             {selectedTrailer.creator?.name}
           </span>
         </li>
       </ul>
-      <ul className='list mt-6'>
-        <li className='h-9 px-5 flex items-center text-sm font-semibold'>
+      <ul className='list mt-6 text-sm'>
+        <li className='h-9 px-5 flex items-center font-semibold'>
           <p className='w-48'>Specs</p>
           <p className='w-40'>Status</p>
         </li>
@@ -102,9 +136,9 @@ const SelectedTrailerCard = ({ selectedTrailer, toggleModalHandler }) => {
             </span>
           )}
           {selectedTrailer.specs.containerlocks === null && (
-            <span className='ml-4 text-sm text-gray-400'>❓</span>
+            <span className='ml-4 text-gray-400'>❓</span>
           )}
-          {/* <button className='ml-auto text-sm text-gray-400 hover:text-black'>
+          {/* <button className='ml-auto text-gray-400 hover:text-black'>
                           Edit
                         </button> */}
         </li>
@@ -116,9 +150,9 @@ const SelectedTrailerCard = ({ selectedTrailer, toggleModalHandler }) => {
             </span>
           )}
           {selectedTrailer.specs.extendable === null && (
-            <span className='ml-4 text-sm text-gray-400'>❓</span>
+            <span className='ml-4 text-gray-400'>❓</span>
           )}
-          {/* <button className='ml-auto text-sm text-gray-400 hover:text-black'>
+          {/* <button className='ml-auto text-gray-400 hover:text-black'>
                           Edit
                         </button> */}
         </li>
@@ -130,9 +164,9 @@ const SelectedTrailerCard = ({ selectedTrailer, toggleModalHandler }) => {
             </span>
           )}
           {selectedTrailer.specs.lashings === null && (
-            <span className='ml-4 text-sm text-gray-400'>❓</span>
+            <span className='ml-4 text-gray-400'>❓</span>
           )}
-          {/* <button className='ml-auto text-sm text-gray-400 hover:text-black'>
+          {/* <button className='ml-auto text-gray-400 hover:text-black'>
                           Edit
                         </button> */}
         </li>
@@ -144,9 +178,9 @@ const SelectedTrailerCard = ({ selectedTrailer, toggleModalHandler }) => {
             </span>
           )}
           {selectedTrailer.specs.loadingramp === null && (
-            <span className='ml-4 text-sm text-gray-400'>❓</span>
+            <span className='ml-4 text-gray-400'>❓</span>
           )}
-          {/* <button className='ml-auto text-sm text-gray-400 hover:text-black'>
+          {/* <button className='ml-auto text-gray-400 hover:text-black'>
                           Edit
                         </button> */}
         </li>
@@ -158,9 +192,9 @@ const SelectedTrailerCard = ({ selectedTrailer, toggleModalHandler }) => {
             </span>
           )}
           {selectedTrailer.specs.winterTires === null && (
-            <span className='ml-4 text-sm text-gray-400'>❓</span>
+            <span className='ml-4 text-gray-400'>❓</span>
           )}
-          {/* <button className='ml-auto text-sm text-gray-400 hover:text-black'>
+          {/* <button className='ml-auto text-gray-400 hover:text-black'>
                           Edit
                         </button> */}
         </li>
@@ -172,16 +206,16 @@ const SelectedTrailerCard = ({ selectedTrailer, toggleModalHandler }) => {
             </span>
           )}
           {selectedTrailer.specs.summerTires === null && (
-            <span className='ml-4 text-sm text-gray-400'>❓</span>
+            <span className='ml-4 text-gray-400'>❓</span>
           )}
-          {/* <button className='ml-auto text-sm text-gray-400 hover:text-black'>
+          {/* <button className='ml-auto text-gray-400 hover:text-black'>
                           Edit
                         </button> */}
         </li>
         <li className='h-11 px-4 flex items-center'>
           <span className='w-48 font-semibold'>Axles</span>
           <span className='ml-4'>{selectedTrailer.specs.axles}</span>
-          {/* <button className='ml-auto text-sm text-gray-400 hover:text-black'>
+          {/* <button className='ml-auto text-gray-400 hover:text-black'>
                           Edit
                         </button> */}
         </li>

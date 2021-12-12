@@ -14,7 +14,7 @@ const PositionTable = ({
       {trailers ? (
         <ul className='list'>
           <li className='h-9 px-5 flex items-center text-sm font-semibold'>
-            <p className='w-40 ml-16 pl-1'>Trailer</p>
+            <p className='w-40 ml-14 pl-1'>Trailer</p>
             <p className='w-40'>Current Location</p>
             <p className='w-40'>Next Location</p>
             <p className='w-40'>Last Updated</p>
@@ -22,18 +22,18 @@ const PositionTable = ({
           {trailers?.map((trailer) => (
             <li
               key={trailer._id}
-              className='flex flex-col md:flex-row md:items-center w-full h-16 py-2 px-5 text-gray-600 text-sm font-semibold cursor-pointer hover:text-black'
+              className='flex flex-col md:flex-row md:items-center w-full h-14 py-2 px-5 text-gray-600 text-sm font-semibold cursor-pointer hover:text-black'
             >
               {trailer.imgURL ? (
                 <img
                   src={trailer.imgURL}
                   alt='Trailer'
-                  className='h-full w-14 object-center rounded-sm object-cover transform transition-all hover:scale-300'
+                  className='h-full w-11 object-center rounded-sm object-cover transform transition-all hover:scale-300'
                   onClick={() => toggleModalHandler(trailer)}
                 />
               ) : (
-                <div className='w-14'>
-                  <TruckBGIcon className='h-10 w-10 m-auto' />
+                <div className='w-11'>
+                  <TruckBGIcon className='h-8 w-8 m-auto' />
                 </div>
               )}
               <div className='h-full w-full flex'>
@@ -42,7 +42,7 @@ const PositionTable = ({
                   onClick={() => chooseTrailerClickHandler(trailer)}
                 >
                   <div className='flex flex-col justify-center h-full w-40 pl-2 pb-2 ml-2 mr-1'>
-                    <p className='text-lg font-bold text-primary'>
+                    <p className='text-base font-bold text-primary'>
                       {trailer.license}
                     </p>
                     <p className='text-xs text-gray-500'>
