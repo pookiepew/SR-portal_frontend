@@ -3,7 +3,7 @@
 const Card = (props) => {
   return (
     <div
-      className={'p-5 bg-white h-full rounded shadow-md ' + props.className}
+      className={"p-5 bg-white rounded shadow-md " + props.className}
       // variants={fade}
       // initial='hidden'
       // animate={'visible'}

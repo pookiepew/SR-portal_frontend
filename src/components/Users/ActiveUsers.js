@@ -1,6 +1,6 @@
-import Card from '../ui/Card';
+import Card from "../ui/Card";
 
-import UserCircleIcon from '../ui/icons/UserCircle-icon';
+import UserCircleIcon from "../ui/icons/UserCircle-icon";
 
 const ActiveUsers = ({ users, setSelectedUser, backendBaseUrl }) => {
   return (
@@ -33,13 +33,9 @@ const ActiveUsers = ({ users, setSelectedUser, backendBaseUrl }) => {
               <p className='capitalize text-primary font-bold'>{user.name}</p>
               <p className='text-xs text-gray-500'>{user.email}</p>
             </div>
-            {user.company ? (
-              <p className='w-40'>
-                {user.company?.name === 'sr group as' && 'SR Group AS'}
-              </p>
-            ) : (
-              <p className='w-40'>Not selected</p>
-            )}
+
+            <p className='w-40'>{user.company?.name || "Not selected"}</p>
+
             {user.team ? (
               <p className='capitalize w-40'>{user.team?.name}</p>
             ) : (

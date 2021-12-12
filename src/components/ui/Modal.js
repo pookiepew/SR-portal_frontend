@@ -1,10 +1,13 @@
-import Backdrop from './Backdrop';
+import Backdrop from "./Backdrop";
 const Modal = (props) => {
   return (
     <>
       <Backdrop onClick={props.onClick} />
-      <div className='fixed top-0 left-1/2 transform -translate-x-1/2 mt-20 bg-white z-50 w-96 min-w-max p-5 rounded shadow-md'>
-        {props.children}
+      <div
+        className='fixed top-0 left-0 w-screen h-screen z-50 flex items-center justify-center'
+        onClick={props.onClick}
+      >
+        <div className='bg-white p-5 rounded shadow-md'>{props.children}</div>
       </div>
     </>
   );
