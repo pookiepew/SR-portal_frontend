@@ -7,7 +7,7 @@ import { fade } from "../variants";
 
 import { getTrailers } from "../store/actions-creators/equipment-actions";
 
-import { socket } from "../App";
+import { socket } from "../components/Layout";
 
 import TrailerNav from "../components/equipment/trailers/TrailerNav";
 import PositionList from "../components/equipment/trailers/position-list/PositionList";
@@ -31,13 +31,9 @@ const Equipment = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    setSelectedTrailer(trailers[0]);
-  }, [trailers]);
-
-  useEffect(() => {
     if (socket) {
       socket.on("trailer", (data) => {
-        console.log(data);
+        // console.log(data);
       });
     }
     return () => {

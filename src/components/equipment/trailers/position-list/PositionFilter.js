@@ -8,8 +8,8 @@ import AreaNameSelector from "./AreaNameSelector";
 const PositionFilter = ({ trailers, user, filteredList, setFilteredList }) => {
   const [areacodeFilters, setAreacodeFilters] = useState([
     {
-      value: user.team.location.areacode.code || "NO-400",
-      label: user.team.location.areacode.code || "NO-400",
+      value: user.team?.location?.areacode?.code || "NO-400",
+      label: user.team?.location?.areacode?.code || "NO-400",
     },
   ]);
   const [areanameFilters, setAreanameFilters] = useState([]);

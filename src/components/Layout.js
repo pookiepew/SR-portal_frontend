@@ -1,30 +1,26 @@
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import { uiActions } from '../store/slices/ui-slice';
+import { backendSocketUrl } from "../api";
+import { io } from "socket.io-client";
 
-import useWindowDimensions from '../hooks/useWindowDimensions';
+import { uiActions } from "../store/slices/ui-slice";
 
-// import Header from './navigation/Header';
-import Footer from '../components/ui/Footer';
-import ProfileLink from './navigation/ProfileLink';
-import Sidebar from './navigation/Sidebar';
+import useWindowDimensions from "../hooks/useWindowDimensions";
+
+import Footer from "../components/ui/Footer";
+import ProfileLink from "./navigation/ProfileLink";
+import Sidebar from "./navigation/Sidebar";
+
+let socket;
 
 const Layout = (props) => {
   const { user } = useSelector((state) => state.auth);
-  // const { userSubmenuIsOpen } = useSelector((state) => state.ui);
   const sidebarIsOpen = useSelector((state) => state.ui.sidebarIsOpen);
 
   const { width } = useWindowDimensions();
 
   const dispatch = useDispatch();
-
-  // const mainWindowClickHandler = () => {
-  //   if (userSubmenuIsOpen) {
-  //     dispatch(uiActions.toggleUserSubmenu());
-  //     return;
-  //   }
-  // };
 
   useEffect(() => {
     if (width > 640) {
@@ -32,13 +28,19 @@ const Layout = (props) => {
     }
   }, [width, dispatch]);
 
+  useEffect(() => {
+    if (user.isAuthenticated) {
+      socket = io(backendSocketUrl);
+      socket.on("connect", () => {
+        console.log("Socket IO connected");
+      });
+    }
+  }, [user]);
+
   return (
     <>
-      {/* {user.isAuthenticated && <Header />} */}
-      <main
-        className='overflow-x-hidden'
-        // onClick={mainWindowClickHandler}
-      >
+      {/* <main className='overflow-x-hidden'> */}
+      <main>
         {user.isAuthenticated && <Sidebar />}
         {props.children}
         {user.isAuthenticated && <Footer />}
@@ -47,5 +49,7 @@ const Layout = (props) => {
     </>
   );
 };
+
+export { socket };
 
 export default Layout;

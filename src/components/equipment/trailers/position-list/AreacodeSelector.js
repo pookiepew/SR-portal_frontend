@@ -25,8 +25,8 @@ const AreacodeSelector = ({
       options={createAreacodeOptions(trailers)}
       defaultValue={[
         {
-          value: user.team.location.areacode.code || "NO-500",
-          label: user.team.location.areacode.code || "NO-500",
+          value: user.team?.location?.areacode?.code || "NO-400",
+          label: user.team?.location?.areacode?.code || "NO-400",
         },
       ]}
       onChange={(newValue) => onChangeHandler("areacode", newValue)}

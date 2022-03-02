@@ -10,15 +10,37 @@ export const fade = {
   },
   exit: {
     transition: {
-      ease: 'easeInOut',
+      ease: "easeInOut",
       opacity: 0,
+    },
+  },
+};
+
+export const dropdown = {
+  hidden: {
+    height: "0px",
+    transition: {
+      duration: 1,
+    },
+  },
+  visible: {
+    height: "fit-content",
+    transition: {
+      duration: 1,
+    },
+  },
+  exit: {
+    height: "0px",
+    transition: {
+      duration: 1,
+      ease: "easeInOut",
     },
   },
 };
 
 export const sidebarSlideIn = {
   hidden: {
-    x: '-100%',
+    x: "-100%",
   },
   visible: {
     x: 0,
@@ -30,7 +52,7 @@ export const moveHeaderContent = {
     paddingLeft: 0,
   },
   right: {
-    paddingLeft: '250px',
+    paddingLeft: "250px",
   },
 };
 

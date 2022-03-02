@@ -1,19 +1,13 @@
-import Creatable from "react-select/creatable";
+import Select from "react-select";
 
-const CreatableSelect = (props) => {
+const SingleSelect = (props) => {
   return (
-    <Creatable
+    <Select
       classNamePrefix='filter'
-      autoFocus={props.autoFocus}
-      isDisabled={props.isDisabled}
       isClearable={props.isClearable || true}
       onChange={props.onChange}
-      onCreateOption={props.onCreateOption}
-      onInputChange={props.onInputChange}
       options={props.options}
-      value={props.value}
       defaultValue={props.defaultValue}
-      noOptionsMessage={() => props.noOptionsMessage}
       theme={(theme) => ({
         ...theme,
         borderRadius: "0",
@@ -31,4 +25,4 @@ const CreatableSelect = (props) => {
   );
 };
 
-export default CreatableSelect;
+export default SingleSelect;

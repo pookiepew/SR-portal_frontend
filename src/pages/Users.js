@@ -1,28 +1,28 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from "framer-motion";
 
-import { backendBaseUrl } from '../api';
+import { backendBaseUrl } from "../api";
 
-import { fade } from '../variants';
+import { fade } from "../variants";
 
 import {
   deleteUser,
   getActiveUsers,
   getInvitedUsers,
   getDeletedUsers,
-} from '../store/actions-creators/users-actions';
+} from "../store/actions-creators/users-actions";
 
-import UserCard from '../components/Users/UserCard';
-import ActiveUsers from '../components/Users/ActiveUsers';
-import InvitedUsers from '../components/Users/InvitedUsers';
-import DeletedUsers from '../components/Users/DeletedUsers';
-import DeleteUserCard from '../components/Users/DeleteUserCard';
-import InviteUserCard from '../components/Users/InviteUserCard';
-import Header from '../components/navigation/Header';
+import UserCard from "../components/Users/UserCard";
+import ActiveUsers from "../components/Users/ActiveUsers";
+import InvitedUsers from "../components/Users/InvitedUsers";
+import DeletedUsers from "../components/Users/DeletedUsers";
+import DeleteUserCard from "../components/Users/DeleteUserCard";
+import InviteUserCard from "../components/Users/InviteUserCard";
+import Header from "../components/navigation/Header";
 
-import UserAddIcon from '../components/ui/icons/User-add-icon';
+import UserAddIcon from "../components/ui/icons/User-add-icon";
 
 const Users = () => {
   const user = useSelector((state) => state.auth.user);
@@ -31,7 +31,7 @@ const Users = () => {
     (state) => state.users
   );
 
-  const [component, setComponent] = useState('Active-users');
+  const [component, setComponent] = useState("Active-users");
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [userToDelete, setUserToDelete] = useState(null);
@@ -41,20 +41,19 @@ const Users = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    document.title = 'SR Portal - Users';
+    document.title = "SR Portal - Users";
     dispatch(getActiveUsers());
 
-    if (component === 'Invited-users') {
+    if (component === "Invited-users") {
       dispatch(getInvitedUsers());
     }
-    if (component === 'Deleted-users') {
+    if (component === "Deleted-users") {
       dispatch(getDeletedUsers());
     }
-    setSelectedUser(user);
   }, [dispatch, user, component]);
 
   useEffect(() => {
-    localStorage.setItem('path', '/users');
+    localStorage.setItem("path", "/users");
   }, []);
 
   const selectUserHandler = (name) => {
@@ -80,7 +79,6 @@ const Users = () => {
     setSelectedUser(user);
   };
 
-
   return (
     <>
       <Header>
@@ -88,31 +86,31 @@ const Users = () => {
           <ul className='hidden sm:flex items-center h-10 mt-3 text-sm sm:text-base'>
             <li
               className={
-                component === 'Active-users'
-                  ? 'h-6 font-bold mr-6 border-b-2 select-none border-primary hover:border-primary cursor-pointer'
-                  : 'h-6 font-bold mr-6 border-b-2 select-none border-transparent hover:border-primary cursor-pointer'
+                component === "Active-users"
+                  ? "h-6 font-bold mr-6 border-b-2 select-none border-primary hover:border-primary cursor-pointer"
+                  : "h-6 font-bold mr-6 border-b-2 select-none border-transparent hover:border-primary cursor-pointer"
               }
-              onClick={() => setComponent('Active-users')}
+              onClick={() => setComponent("Active-users")}
             >
               Active Users
             </li>
             <li
               className={
-                component === 'Invited-users'
-                  ? 'h-6 font-bold mr-6 border-b-2 select-none border-primary hover:border-primary cursor-pointer'
-                  : 'h-6 font-bold mr-6 border-b-2 select-none border-transparent hover:border-primary cursor-pointer'
+                component === "Invited-users"
+                  ? "h-6 font-bold mr-6 border-b-2 select-none border-primary hover:border-primary cursor-pointer"
+                  : "h-6 font-bold mr-6 border-b-2 select-none border-transparent hover:border-primary cursor-pointer"
               }
-              onClick={() => setComponent('Invited-users')}
+              onClick={() => setComponent("Invited-users")}
             >
               Invited Users
             </li>
             <li
               className={
-                component === 'Deleted-users'
-                  ? 'h-6 font-bold border-b-2 select-none border-primary hover:border-primary cursor-pointer'
-                  : 'h-6 font-bold border-b-2 select-none border-transparent hover:border-primary cursor-pointer'
+                component === "Deleted-users"
+                  ? "h-6 font-bold border-b-2 select-none border-primary hover:border-primary cursor-pointer"
+                  : "h-6 font-bold border-b-2 select-none border-transparent hover:border-primary cursor-pointer"
               }
-              onClick={() => setComponent('Deleted-users')}
+              onClick={() => setComponent("Deleted-users")}
             >
               Deleted Users
             </li>
@@ -128,12 +126,12 @@ const Users = () => {
       </Header>
       <section className='w-full px-4 sm:pl-72'>
         <AnimatePresence exitBeforeEnter>
-          {component === 'Active-users' && (
+          {component === "Active-users" && (
             <motion.section
               className='md:flex'
               variants={fade}
               initial='hidden'
-              animate={component === 'Active-users' ? 'visible' : 'hidden'}
+              animate={component === "Active-users" ? "visible" : "hidden"}
               key={component}
             >
               <ActiveUsers
@@ -172,12 +170,12 @@ const Users = () => {
               </AnimatePresence>
             </motion.section>
           )}
-          {component === 'Invited-users' && (
+          {component === "Invited-users" && (
             <motion.section
               className='md:flex'
               variants={fade}
               initial='hidden'
-              animate={component === 'Invited-users' ? 'visible' : 'hidden'}
+              animate={component === "Invited-users" ? "visible" : "hidden"}
               key={component}
             >
               <InvitedUsers
@@ -208,12 +206,12 @@ const Users = () => {
               </AnimatePresence>
             </motion.section>
           )}
-          {component === 'Deleted-users' && (
+          {component === "Deleted-users" && (
             <motion.section
               className='md:flex'
               variants={fade}
               initial='hidden'
-              animate={component === 'Deleted-users' ? 'visible' : 'hidden'}
+              animate={component === "Deleted-users" ? "visible" : "hidden"}
               key={component}
             >
               <DeletedUsers
@@ -229,7 +227,7 @@ const Users = () => {
                   selectUserHandler={selectUserHandler}
                   component={component}
                   backendBaseUrl={backendBaseUrl}
-                  key={'UserCard'}
+                  key={"UserCard"}
                 />
               )}
             </motion.section>

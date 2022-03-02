@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { NavLink } from 'react-router-dom';
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { NavLink } from "react-router-dom";
 
-import Submenu from '../submenu/Submenu';
-import SubmenuListItem from '../submenu/SubmenuListItem';
-import SubmenuHeading from '../submenu/SubmenuHeading';
+import Submenu from "../submenu/Submenu";
+import SubmenuListItem from "../submenu/SubmenuListItem";
+import SubmenuHeading from "../submenu/SubmenuHeading";
 
-import ShieldIcon from '../../ui/icons/Shield-icon';
+import ShieldIcon from "../../ui/icons/Shield-icon";
 
 const Admin = (props) => {
   const [showSubmenu, setShowSubmenu] = useState(false);
@@ -17,7 +17,7 @@ const Admin = (props) => {
         <ShieldIcon className='h-5 w-5 sm:h-6 sm:w-6' />
         <span className='pl-6 text-sm sm:text-md sm:font-semibold'>Admin</span>
       </SubmenuHeading>
-      <AnimatePresence>
+      <AnimatePresence exitBeforeEnter>
         {showSubmenu && (
           <Submenu>
             <SubmenuListItem>

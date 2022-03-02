@@ -13,6 +13,10 @@ const MultiSelect = (props) => {
       defaultValue={props.defaultValue}
       isSearchable={props.isSearchable || true}
       onChange={(newValue) => props.onChange(newValue)}
+      theme={(theme) => ({
+        ...theme,
+        borderRadius: "3px",
+      })}
     />
   );
 };
